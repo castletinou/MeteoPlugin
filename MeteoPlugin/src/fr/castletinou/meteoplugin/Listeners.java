@@ -10,6 +10,7 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -68,7 +69,30 @@ public class Listeners implements Listener {
 
 						double latestTemperature = temperatureArray.get(temperatureArray.size() - 1).getAsDouble();
 						int latestWeatherCode = weatherCodeArray.get(weatherCodeArray.size() - 1).getAsInt();
+						World world = player.getWorld();
+						if (latestWeatherCode == 95 || latestWeatherCode == 96 || latestWeatherCode == 99) {
+							// Orage
+							world.setStorm(true);
+							world.setThundering(true);
+						} else if (latestWeatherCode == 51 || latestWeatherCode == 53 || latestWeatherCode == 55
+								|| latestWeatherCode == 56 || latestWeatherCode == 57 || latestWeatherCode == 61
+								|| latestWeatherCode == 63 || latestWeatherCode == 65 || latestWeatherCode == 66
+								|| latestWeatherCode == 67 || latestWeatherCode == 71 || latestWeatherCode == 73
+								|| latestWeatherCode == 75 || latestWeatherCode == 77 || latestWeatherCode == 80
+								|| latestWeatherCode == 81 || latestWeatherCode == 82 || latestWeatherCode == 85
+								|| latestWeatherCode == 86) {
+							// Pluie
+							world.setStorm(true);
+							world.setThundering(false);
+						} else {
+							// Pas de pluie
+							world.setStorm(false);
+							world.setThundering(false);
+						}
 
+						// Afficher les données dans le chat
+						player.sendMessage(ChatColor.GRAY
+								+ "La météo a été mise à jour en fonction des données météo en temps réel.");
 						String weather = getWeatherString(latestWeatherCode);
 
 						String actionBarMessage = ChatColor.GRAY + "Temp: " + latestTemperature + "°C; Weather: "
