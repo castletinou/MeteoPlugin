@@ -1,0 +1,10 @@
+name: MeteoPlugin
+description: La meteo IRL Dans Minecraft
+autor: castletinou
+main: fr.castletinou.meteoplugin.Main
+version: 1.0
+commands:
+  boussole:
+    description: Give meteo boussole
+    permission: boussole.give
+    permission-message: You do not have permission :/
